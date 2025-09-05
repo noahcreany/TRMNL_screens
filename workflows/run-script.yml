@@ -1,0 +1,25 @@
+name: Run Python Script on Schedule
+
+on:
+  schedule:
+    - cron: '0 8-18 * *'   # Runs every day from 8am to 6pm
+  workflow_dispatch:      # Allows manual runs from the Actions tab
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'  # Change to your Python version if needed
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+        # Remove this step if you have no requirements.txt
+
+      - name: Run script
+        run: python meteogramp_pi.py
