@@ -36,7 +36,12 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.image import imread
 
 
-df = pd.read_pickle('Data/meteogram_data.pkl')
+
+#%% Load Data
+
+data_path = 'Data/meteogram_data.pkl'
+
+df = pd.read_pickle(data_path)
 
 
 conf = {'lat' : 40.5853,
@@ -178,7 +183,7 @@ def meteogram(df, conf):
     # fig.autofmt_xdate(ha='center', rotation=0)
 
     # Title and subtitle
-    forecast_time = datetime.datetime.fromtimestamp(os.path.getmtime("meteogram_data.pkl")).strftime("%-d %b %-I:%M %p")
+    forecast_time = datetime.datetime.fromtimestamp(os.path.getmtime(data_path)).strftime("%-d %b %-I:%M %p")
     
     title_string = f"{conf['city']}, {conf['state']} - ({conf['lat']:.2f}, {conf['lon']:.2f}) {conf['asl']}m\nForecast Time: {forecast_time}"
     
