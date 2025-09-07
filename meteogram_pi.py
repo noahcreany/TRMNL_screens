@@ -20,6 +20,8 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.image import imread
 import PIL
 import os
+from PIL import Image
+from PIL import ImageEnhance
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -73,6 +75,7 @@ def get_data(url):
 
 df = get_data(url)
 
+df.to_pickle('mdeteogram_data.pkl')
 
 
 # df = pd.read_pickle('/home/noah/Documents/meteogram_data.pkl')
@@ -80,7 +83,7 @@ df = get_data(url)
 # df = pd.read_pickle('meteogram_data.pkl')
 
 
-
+#%% Make Meteogram
 def meteogram(df, conf):
     """Generates a meteogram plot with weather icons and temperature data."""
 
@@ -89,7 +92,7 @@ def meteogram(df, conf):
     # Create figure with two subplots: icons (top) and temperature (bottom)
     fig, (ax_icons, ax_temp) = plt.subplots(nrows=2,
                                             ncols=1,
-                                            figsize=((640 / 100), (400 / 100)),
+                                            figsize=((800 / 100), (480 / 100)),
                                             dpi=100,
                                             gridspec_kw={'height_ratios': [1, 7]})
                                             # sharex=True)
@@ -217,25 +220,17 @@ def meteogram(df, conf):
     # plt.tight_layout()
     plt.subplots_adjust(top = .9, bottom=.001, hspace=0, wspace=0)
     plt.tight_layout(h_pad=-.5)
+    plt.savefig('Meteogram.png')
+    
+    def make_greyscale():
+        img = Image.open('Meteogram.png')
 
-    plt.show()
-
-
+        img = ImageEnhance.Color(img).enhance(0)
+        img.save('Meteogram.png')
+    
+    
+    make_greyscale()
+    
 meteogram(df, conf) #uncomment when df and conf are defined.
 
-#%% Metogram Updated
 
-
-# def display_meteo():
-#     display = auto()
-
-#     img = "/home/noah/Documents/meteogram.png"
-
-#     img = Image.open(img)
-    
-#     flipped_image = img.transpose(Image.ROTATE_180)
-#     display.set_image(flipped_image)
-
-#     display.show()
-# print('Sending image to display')
-# display_meteo()
