@@ -81,13 +81,7 @@ def get_data(url):
 
 df = get_data(url)
 
-df.to_pickle('mdeteogram_data.pkl')
-
-
-# df = pd.read_pickle('/home/noah/Documents/meteogram_data.pkl')
-
-# df = pd.read_pickle('meteogram_data.pkl')
-
+df.to_pickle('Data/meteogram_data.pkl')
 
 #%% Make Meteogram
 def meteogram(df, conf):
@@ -226,13 +220,13 @@ def meteogram(df, conf):
     # plt.tight_layout()
     plt.subplots_adjust(top = .9, bottom=.001, hspace=0, wspace=0)
     plt.tight_layout(h_pad=-.5)
-    plt.savefig('Meteogram.png')
+    plt.savefig('Images/meteogram.png')
     
     def make_greyscale():
-        img = Image.open('Meteogram.png')
+        img = Image.open('Images/meteogram.png')
 
         img = ImageEnhance.Color(img).enhance(0)
-        img.save('Meteogram.png')
+        img.save('Images/meteogram.png')
     
     
     make_greyscale()
