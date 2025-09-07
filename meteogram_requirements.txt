@@ -2,5 +2,4 @@ pandas
 matplotlib
 numpy
 pillow
-os
 datetime

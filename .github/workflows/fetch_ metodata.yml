@@ -1,10 +1,14 @@
 # This is a basic workflow that is manually triggered
-name: Run Python Script on Schedule
+name: Fetch Meteogram Data
 
 on:
   schedule:
-    # Runs hourly between 8:00 and 18:00 UTC. Adjust for your timezone!
-    - cron: '0 2-12 * * *'
+    # 8 AM MDT is 14:00 UTC
+    - cron: '0 14 * * *'
+    # 12 PM MDT is 18:00 UTC
+    - cron: '0 18 * * *'
+    # 4 PM MDT is 22:00 UTC
+    - cron: '0 22 * * *'
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 jobs:
@@ -20,18 +24,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r meteogram_requirements.txt
+          pip install pandas
         # Remove this step if you have no requirements.txt
 
       - name: Run script
         env:
             API_KEY: ${{secrets.API_KEY}}
-        run: python meteogram.py
+        run: python fetch_meteodata.py
         
     - name: Commit and push updated meteogram
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add Meteogram.png
-          git commit -m "Meteogram updated" || echo "No changes to commit"
+          git commit -m "Fetched Meteogram Data" || echo "No changes to commit"
           git push
