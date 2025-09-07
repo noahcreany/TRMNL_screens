@@ -22,4 +22,6 @@ jobs:
         # Remove this step if you have no requirements.txt
 
       - name: Run script
+        env:
+            API_KEY: #{{secrets.API_KEY}}
         run: python meteogramp_pi.py

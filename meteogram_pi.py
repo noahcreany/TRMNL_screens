@@ -22,7 +22,6 @@ import PIL
 import os
 from PIL import Image
 from PIL import ImageEnhance
-
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib as mpl
@@ -37,9 +36,16 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.image import imread
 
 
+# Get the API token from the environment variable
+# The name 'API_TOKEN' must match the name you used in the .yml file's `env` block
+api_key = os.getenv('API_KEY')
+
+# It's good practice to check if the token was found
+if not api_key:
+    raise ValueError("API token not found. Please set the API_KEY secret.")
 
 
-conf = {'key' : 'Rh4cdAK3t0H9SoCg',
+conf = {'key' : api_key,
         'lat' : 40.5853,
         'lon': -105.084,
         'asl' : 1525,
