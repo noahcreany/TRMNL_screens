@@ -24,7 +24,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r meteogram_requirements.txt
-        # Remove this step if you have no requirements.txt
 
       - name: Run script
         run: python meteogram.py
