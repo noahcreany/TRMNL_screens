@@ -2,7 +2,8 @@ name: Run Python Script on Schedule
 
 on:
   schedule:
-    - cron: '0 8-18 * *'   # Runs every day from 8am to 6pm
+    # Runs hourly between 8:00 and 18:00 UTC. Adjust for your timezone!
+    - cron: '0 2-12 * * *'
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 jobs:
@@ -23,5 +24,13 @@ jobs:
 
       - name: Run script
         env:
-            API_KEY: #{{secrets.API_KEY}}
+            API_KEY: ${{secrets.API_KEY}}
         run: python meteogramp_pi.py
+        
+    - name: Commit and push updated meteogram
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add Meteogram.png
+          git commit -m "Meteogram updated" || echo "No changes to commit"
+          git push
