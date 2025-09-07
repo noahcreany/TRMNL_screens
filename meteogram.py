@@ -95,7 +95,7 @@ def meteogram(df, conf):
     current_time = datetime.datetime.now(tz=datetime.timezone.utc)
     current_time = current_time.astimezone(local_tz)
     nearest_hour = pd.Timestamp.now(tz='America/Denver').round('60min').to_pydatetime()
-    current_temp = df[df.time == nearest_hour]['temperature'].values[0]
+    current_temp = df[df.time == nearest_hour.replace(tzinfo=None)]['temperature'].values[0]
     temp_yloc = np.mean([current_temp, df.temperature.min()])
 
     ax_temp.axvline(current_time, color='black', alpha=0.5, linestyle='--', linewidth=1.5, zorder=10)
