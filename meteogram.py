@@ -22,7 +22,7 @@ from matplotlib.image import imread
 import matplotlib.dates as mdates
 from matplotlib import patheffects
 from zoneinfo import ZoneInfo
-
+import io
 
 #%% Load Data
 
@@ -185,17 +185,17 @@ def meteogram(df, conf):
     # plt.tight_layout()
     plt.subplots_adjust(top = .9, bottom=.001, hspace=0, wspace=0)
     plt.tight_layout(h_pad=-.5)
-    plt.savefig('Images/meteogram.png')
     
-    def make_greyscale():
-        img = Image.open('Images/meteogram.png')
-
-        img = ImageEnhance.Color(img).enhance(0)
-        img.save('Images/meteogram.png')
+    # Save Fig to in-memory buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format = 'png')
+    buf.seek(0) # Rewind the buffer to the beginning
     
+    img = Image.open(buf)
+    img = ImageEnhance.Color(img).enhance(0)
+    img.save('Images/meteogram.png')
     
-    make_greyscale()
-    
-meteogram(df, conf) #uncomment when df and conf are defined.
+        
+meteogram(df, conf)
 
 
