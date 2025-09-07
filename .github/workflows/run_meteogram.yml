@@ -1,5 +1,5 @@
 # This is a basic workflow that is manually triggered
-name: Run Python Script on Schedule
+name: Run Meteogram
 
 on:
   schedule:
