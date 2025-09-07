@@ -91,7 +91,9 @@ def meteogram(df, conf):
                 )
 
     # Current time line and annotation
-    current_time = datetime.datetime.now()
+    local_tz = ZoneInfo("America/Denver")
+    current_time = datetime.datetime.now(tz=datetime.timezone.utc)
+    current_time = current_time.astimezone(local_tz)
     nearest_hour = pd.Timestamp.now().round('60min').to_pydatetime()
     current_temp = df[df.time == nearest_hour]['temperature'].values[0]
     temp_yloc = np.mean([current_temp, df.temperature.min()])
@@ -174,7 +176,7 @@ def meteogram(df, conf):
     ## Get Forecast Time
     mod_timestamp = os.path.getmtime(data_path)
     utc_time = datetime.datetime.fromtimestamp(mod_timestamp, tz=datetime.timezone.utc)
-    local_tz = ZoneInfo("America/Denver")
+    
     local_time = utc_time.astimezone(local_tz)
     forecast_time = local_time.strftime("%-d %b %-I:%M %p")
     
