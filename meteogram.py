@@ -34,7 +34,7 @@ from matplotlib.ticker import MultipleLocator
 from matplotlib.colors import Normalize
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.image import imread
-
+from zoneinfo import ZoneInfo
 
 
 #%% Load Data
@@ -183,7 +183,13 @@ def meteogram(df, conf):
     # fig.autofmt_xdate(ha='center', rotation=0)
 
     # Title and subtitle
-    forecast_time = datetime.datetime.fromtimestamp(os.path.getmtime(data_path)).strftime("%-d %b %-I:%M %p")
+    
+    ## Get Forecast Time
+    mod_timestamp = os.path.getmtime(data_path)
+    utc_time = datetime.datetime.fromtimestamp(mod_timestamp, tz=datetime.timezone.utc)
+    local_tz = ZoneInfo("America/Denver")
+    local_time = utc_time.astimezone(local_tz)
+    forecast_time = local_time.strftime("%-d %b %-I:%M %p")
     
     title_string = f"{conf['city']}, {conf['state']} - ({conf['lat']:.2f}, {conf['lon']:.2f}) {conf['asl']}m\nForecast Time: {forecast_time}"
     
