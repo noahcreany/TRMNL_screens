@@ -3,7 +3,10 @@ import datetime
 print(f"Timestamp: {datetime.datetime.now().strftime('%b %d,%Y %-I:%M %p')}")
 
 print('Loading Libraries')
+import os
+import numpy as np
 import pandas as pd
+from PIL import Image, ImageEnhance
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.colors import Normalize
@@ -13,27 +16,11 @@ import matplotlib.dates as mdates
 from matplotlib import patches
 from matplotlib.ticker import MultipleLocator
 from matplotlib.collections import LineCollection
-import numpy as np
 from matplotlib.path import Path
-# from inky.auto import auto
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.image import imread
-import PIL
-import os
-from PIL import Image
-from PIL import ImageEnhance
-import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import matplotlib as mpl
-import pandas as pd
-import numpy as np
 from matplotlib import patheffects
-import datetime
-import os
-from matplotlib.ticker import MultipleLocator
-from matplotlib.colors import Normalize
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-from matplotlib.image import imread
 from zoneinfo import ZoneInfo
 
 
