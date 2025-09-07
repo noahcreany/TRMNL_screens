@@ -7,6 +7,10 @@ on:
     - cron: '0 2-12 * * *'
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
+
+permissions:
+  contents: write
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
