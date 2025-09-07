@@ -3,9 +3,9 @@ name: Run Meteogram
 
 on:
   schedule:
-    # Runs hourly between 8:00 and 18:00 UTC. Adjust for your timezone!
+    # Runs hourly between 2:00 and 12:00 UTC (8am-6pm MT)
     - cron: '0 2-12 * * *'
-  workflow_dispatch:      # Allows manual runs from the Actions tab
+  workflow_dispatch:     # Allows manual runs from the Actions tab
 
 jobs:
   run-script:
@@ -16,19 +16,19 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'  # Change to your Python version if needed
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           pip install -r meteogram_requirements.txt
-        # Remove this step if you have no requirements.txt
 
       - name: Run script
         env:
             API_KEY: ${{secrets.API_KEY}}
         run: python meteogram.py
         
-    - name: Commit and push updated meteogram
+      # The indentation for this step has been corrected to match the steps above.
+      - name: Commit and push updated meteogram
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
