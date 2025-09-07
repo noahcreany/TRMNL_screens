@@ -1,4 +1,3 @@
-# This is a basic workflow that is manually triggered
 name: Fetch Meteogram Data
 
 on:
@@ -34,6 +33,10 @@ jobs:
         
       - name: Commit and push updated meteogram
         run: |
-          git add Meteogram.png
-          git commit -m "Fetched Meteogram Data" || echo "No changes to commit"
+          # Configure git user, this is required to commit
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git add Data/meteogram_data.pkl
+          git commit -m "Fetched new meteogram data" || echo "No changes to commit"
           git push
