@@ -25,7 +25,7 @@ jobs:
       - name: Run script
         env:
             API_KEY: ${{secrets.API_KEY}}
-        run: python meteogramp_pi.py
+        run: python meteogram.py
         
     - name: Commit and push updated meteogram
         run: |
