@@ -38,5 +38,5 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           git add Data/meteogram_data.pkl
-          git commit -m "Fetched new meteogram data" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/noahcreany/TRMNL_Screens.git HEAD:main
           git push
