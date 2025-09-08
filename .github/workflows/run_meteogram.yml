@@ -2,8 +2,10 @@ name: Build Meteogram
 
 on:
   schedule:
-    # Runs hourly between 8:00 and 18:00 UTC. Adjust for your timezone!
+    # From 13:59 to 23:59 UTC (7:59 AM to 5:59 PM MT, same day)
     - cron: '59 13-23 * * *'
+    # From 0:59 to 1:59 UTC (6:59 PM to 7:59 PM MT, same calendar day in MT)
+    - cron: '59 0-1 * * *'
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 
