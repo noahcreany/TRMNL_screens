@@ -38,4 +38,5 @@ jobs:
           
           git add Images/meteogram.png
           git commit -m "Meteogram updated" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
