@@ -8,9 +8,6 @@ Created on Mon Mar 10 14:03:10 2025
 
 import pandas as pd
 import numpy as np
-from inky.auto import auto
-from PIL import Image
-
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as patheffects
 import numpy as np
@@ -19,10 +16,11 @@ from matplotlib.colors import Normalize
 from datetime import datetime, timedelta
 from matplotlib.table import Table
 import  matplotlib.ticker as ticker
+import io
+from PIL import Image, ImageEnhance
 
 
-
-df = pd.read_pickle('/home/noah/Documents/meteogram_data.pkl')
+df = pd.read_pickle('Data/meteogram_data.pkl')
 
 
 def get_degree_x_position(text_length):
@@ -56,7 +54,8 @@ def create_weather_display(df):
     get_color = lambda temp: mpl.colors.to_hex(cmap((temp - norm.vmin) / (norm.vmax - norm.vmin)))
 
     # Display time
-    time_stamp = current_time.strftime('%a %-d %b %-I:%M %p')
+    time_stamp = datetime.now()
+    time_stamp = time_stamp.strftime('%a %-d %b %-I:%M %p')
     ax1.text(0.035, 0.9, time_stamp, fontsize=18, fontweight='bold')
 
     # Temperature
@@ -163,25 +162,15 @@ def create_weather_display(df):
         ax2.plot([t,t], tick, lw=2, color="k")
     for t  in np.deg2rad(np.arange(0,360,15)):
         ax2.plot([t,t], tick, lw=.75, color="gray")
-    plt.savefig('/home/noah/Documents/current_conditions.png', dpi = 100)
-
-    #plt.show()
+    # plt.savefig('/home/noah/Documents/current_conditions.png', dpi = 100)
+    
+    buf = io.BytesIO()
+    plt.savefig(buf, format = 'png')
+    buf.seek(0) # Rewind the buffer to the beginning
+    
+    img = Image.open(buf)
+    img = ImageEnhance.Color(img).enhance(0)
+    # img.save('Images/current_weather.png')
+    img.show()
 
 create_weather_display(df)
-
-
-
-def display_current_weather():
-    display = auto()
-
-    img = "/home/noah/Documents/current_conditions.png"
-
-    img = Image.open(img)
-    #No longer upside-down in case
-    #flipped_image = img.transpose(Image.ROTATE_180)
-    display.set_image(img, saturation = 1)
-
-    display.show()
-print('Sending image to display')
-
-display_current_weather()
