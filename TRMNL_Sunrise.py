@@ -55,7 +55,7 @@ def create_date_figure():
     tomorrow_sunrise = tomorrow["sunrise"].strftime("%I:%M %p").lstrip('0')
     tomorrow_sunset = tomorrow["sunset"].strftime("%I:%M %p").lstrip('0')
     
-    font = 'Arial'
+    # font = 'Arial'
     
     # Date    
     ax.text(0.5, 0.9, date_str, fontsize=40, va='top', ha = 'center', fontweight='semibold', color = 'black', family = font)
