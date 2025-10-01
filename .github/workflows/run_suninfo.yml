@@ -31,10 +31,10 @@ jobs:
         
       - name: Commit and push updated meteogram
         run: |
-          # Configure git user, this is required to commit
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           git add Images/sunrise.png
           git commit -m "Sun Info updated" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
