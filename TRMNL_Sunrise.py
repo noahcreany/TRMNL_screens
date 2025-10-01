@@ -58,7 +58,7 @@ def create_date_figure():
     # font = 'Arial'
     
     # Date    
-    ax.text(0.5, 0.9, date_str, fontsize=40, va='top', ha = 'center', fontweight='semibold', color = 'black', family = font)
+    ax.text(0.5, 0.9, date_str, fontsize=40, va='top', ha = 'center', fontweight='semibold', color = 'black')
 
     
     # --- Alignment Coordinates ---
@@ -83,23 +83,23 @@ def create_date_figure():
     
     # --- Plotting the Text ---
     # Sunrise
-    ax.text(x_label_end, y_sunrise, 'Sunrise:', fontsize=label_fontsize, va=va, ha='right', fontweight=label_fontweight, family = font)
-    ax.text(x_value_start, y_sunrise, f'{sunrise}', fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight, family = font)
+    ax.text(x_label_end, y_sunrise, 'Sunrise:', fontsize=label_fontsize, va=va, ha='right', fontweight=label_fontweight)
+    ax.text(x_value_start, y_sunrise, f'{sunrise}', fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight)
     
     # Sunset
-    ax.text(x_label_end, y_sunset, 'Sunset:', fontsize=label_fontsize, va=va, ha='right', fontweight=label_fontweight, family = font)
-    ax.text(x_value_start, y_sunset, f'{sunset}', fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight, family = font)
+    ax.text(x_label_end, y_sunset, 'Sunset:', fontsize=label_fontsize, va=va, ha='right', fontweight=label_fontweight)
+    ax.text(x_value_start, y_sunset, f'{sunset}', fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight)
     
     # Daylight
-    ax.text(.695, y_daylight, 'Daylight:', fontsize=label_fontsize, va=va, ha='center', fontweight=label_fontweight, family = font)
-    ax.text(.695, y_daylight -.12, f'{daylight}', fontsize=value_fontsize+20, va=va, ha='center', fontweight=value_fontweight, family = font)
+    ax.text(.695, y_daylight, 'Daylight:', fontsize=label_fontsize, va=va, ha='center', fontweight=label_fontweight)
+    ax.text(.695, y_daylight -.12, f'{daylight}', fontsize=value_fontsize+20, va=va, ha='center', fontweight=value_fontweight)
     
     # Day Progress
-    ax.text(.325,y_progress,'Day Progress:', fontsize = label_fontsize, va = va, ha = 'center', fontweight = label_fontweight, family = font)
-    ax.text(.325,y_progress-.15,day_progress, fontsize = value_fontsize+20, va = va, ha = 'center', fontweight = value_fontweight, family = font)
+    ax.text(.325,y_progress,'Day Progress:', fontsize = label_fontsize, va = va, ha = 'center', fontweight = label_fontweight)
+    ax.text(.325,y_progress-.15,day_progress, fontsize = value_fontsize+20, va = va, ha = 'center', fontweight = value_fontweight)
     
     # Tomorrow
-    ax.text(.695,y_progress,'Tomorrow:', fontsize = label_fontsize, va = va, ha = 'center', fontweight = label_fontweight, family = font)
+    ax.text(.695,y_progress,'Tomorrow:', fontsize = label_fontsize, va = va, ha = 'center', fontweight = label_fontweight)
 
     sunrise_icon = mpimg.imread('icons/sunrise.png')
     sunset_icon = mpimg.imread('icons/sunset.png')
@@ -112,8 +112,8 @@ def create_date_figure():
 
     ax.add_artist(sunrise_icon)
     ax.add_artist(sunset_icon)
-    ax.text(x_icons+.035, y_progress-.1, tomorrow_sunrise, fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight, family = font)
-    ax.text(x_icons+.035, y_progress-.2, tomorrow_sunset, fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight, family = font)
+    ax.text(x_icons+.035, y_progress-.1, tomorrow_sunrise, fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight)
+    ax.text(x_icons+.035, y_progress-.2, tomorrow_sunset, fontsize=value_fontsize, va=va, ha='left', fontweight=value_fontweight)
     
     
     
