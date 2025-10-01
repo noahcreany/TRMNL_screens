@@ -2,14 +2,9 @@ name: Run Sun Info
 
 on:
   schedule:
-    - cron: '00 13-23 * * *'
-    - cron: '15 13-23 * * *'
-    - cron: '30 13-23 * * *'
-    - cron: '45 13-23 * * *'
-    - cron: '00 0-2 * * *'
-    - cron: '15 0-2 * * *'
-    - cron: '30 0-2 * * *'
-    - cron: '45 0-2 * * *'
+    - cron: '55 13-23 * * *'
+    - cron: '55 0-2 * * *'
+
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 
