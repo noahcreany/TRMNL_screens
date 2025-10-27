@@ -3,11 +3,11 @@ name: Fetch Meteogram Data
 on:
   schedule:
     # 7:55 AM MDT is 13:55 UTC
-    - cron: '55 13 * * *'
+    - cron: '50 13 * * *'
     # 11:55 AM MDT is 17:55 UTC
-    - cron: '55 17 * * *'
+    - cron: '50 17 * * *'
     # 5:55 PM MDT is 23:55 UTC
-    - cron: '55 23 * * *'
+    - cron: '50 23 * * *'
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 permissions:
