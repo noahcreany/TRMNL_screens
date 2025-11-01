@@ -44,12 +44,12 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     fig,ax = plt.subplots(figsize=(8,4.8), dpi = 100)
     plt.style.use('default')
     
-    ax.plot(df['Date'], df['Daylength'], alpha = .5,color='black')
+    ax.plot(df['Date'], df['Daylength'], linewidth = 3, alpha = .5,color='black')
     
     ax.scatter(df[df.Today==True]['Date'],
                df[df.Today==True]['Daylength'],
                color = 'black',
-               s = 100,
+               s = 125,
                zorder=5,
                label='Today')
     
@@ -68,7 +68,7 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     def hours_to_hhm(hours, pos):
         h = int(hours)
         m = int((hours - h) * 60)
-        return f'{h:02d}:{m:02d}'
+        return f'{h:02d}hr'
     
     hhm_formatter = ticker.FuncFormatter(hours_to_hhm)
     ax.yaxis.set_major_formatter(hhm_formatter)
@@ -77,11 +77,11 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1.0))
     ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.5))
     
-    ax.grid(True, which='major', linestyle='-', linewidth=1, axis='y', alpha =0.5)
-    ax.grid(True, which='minor', linestyle='-', linewidth=0.5, axis='y', alpha = 0.25)
+    ax.grid(True, which='major', linestyle='-', linewidth=1.5, axis='y', alpha =1)
+    ax.grid(True, which='minor', linestyle='-', linewidth=.75, axis='y', alpha = 1)
     
     # 6. Finalize plot
-    ax.set_title(f'{city_name} Day Length: {df.Date.min().strftime("%d %b %Y")}-{df.Date.max().strftime("%Y")}')
+    ax.set_title(f'{city_name} Day Length: {df.Date.min().strftime("%m/%-d/%y")}-{df.Date.max().strftime("%m/%-d/%y")}')
     ax.set_xlabel('Date')
     ax.set_ylabel('Length of Day')
     ax.spines['top'].set_visible(False) 
