@@ -25,10 +25,11 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     now = datetime.now(timezone)
     
     df = pd.DataFrame()
-    df['Date'] = pd.date_range(start = now - relativedelta(months=6),
+    df['Date'] = pd.date_range(start = now - relativedelta(months=6,),
                                end =  now + relativedelta(months=6),
                   freq = 'D')
-    df['Today'] = np.where(df.Date == now,True,False)
+    
+    df['Today'] = np.where(df['Date'].dt.strftime('%Y-%m-%d')==now.strftime('%Y-%m-%d'),True,False)
     
     
     df['Daylength'] = pd.Series()
@@ -50,8 +51,7 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
                df[df.Today==True]['Daylength'],
                color = 'black',
                s = 125,
-               zorder=5,
-               label='Today')
+               zorder=9)
     
     # 4. Format the X-axis (Date)
     ax.xaxis.set_major_locator(mdates.MonthLocator())

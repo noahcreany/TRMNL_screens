@@ -44,10 +44,20 @@ def create_date_figure():
     minutes = (daylight_duration.seconds % 3600) // 60
     daylight = f"{hours}h {minutes}m"
     
-    
     # Day Progress
-    day_progress = f"{(now - s['sunrise']).total_seconds()/(daylight_duration.total_seconds()):.0%}"
+    def get_day_progress():
+        now_seconds = (now - s['sunrise']).total_seconds()
+        daylight = daylight_duration.total_seconds()
+        progress = now_seconds/daylight
+        
+        if progress >=1:
+            return '100%'
+        else:
+            return f'{progress:.0%}'
     
+    day_progress = get_day_progress()
+    
+
     # Tomorrow Sunrise/Sunset
     tomorrow = now + timedelta(days=1)
     tomorrow = s = sun(city.observer, date=tomorrow, tzinfo=city.timezone)
