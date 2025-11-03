@@ -44,6 +44,8 @@ def create_date_figure():
     minutes = (daylight_duration.seconds % 3600) // 60
     daylight = f"{hours}h {minutes}m"
     
+    now = now + timedelta(hours=-6)
+    
     # Day Progress
     def get_day_progress():
         now_seconds = (now - s['sunrise']).total_seconds()
@@ -52,6 +54,8 @@ def create_date_figure():
         
         if progress >=1:
             return '100%'
+        elif progress <=0:
+            return '0%'
         else:
             return f'{progress:.0%}'
     
