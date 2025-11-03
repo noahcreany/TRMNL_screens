@@ -27,6 +27,7 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     df = pd.DataFrame()
     df['Date'] = pd.date_range(start = now - relativedelta(months=6,),
                                end =  now + relativedelta(months=6),
+                  tz = timezone,
                   freq = 'D')
     
     df['Today'] = np.where(df['Date'].dt.strftime('%Y-%m-%d')==now.strftime('%Y-%m-%d'),True,False)
