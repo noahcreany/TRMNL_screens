@@ -44,7 +44,6 @@ def create_date_figure():
     minutes = (daylight_duration.seconds % 3600) // 60
     daylight = f"{hours}h {minutes}m"
     
-    now = now + timedelta(hours=-6)
     
     # Day Progress
     def get_day_progress():
