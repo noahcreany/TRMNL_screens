@@ -12,10 +12,9 @@ import os
 
 
 # Get the API token from the environment variable
-# The name 'API_TOKEN' must match the name you used in the .yml file's `env` block
 api_key = os.getenv('API_KEY')
 
-# It's good practice to check if the token was found
+# Check if the token was found
 if not api_key:
     raise ValueError("API token not found. Please set the API_KEY secret.")
 
@@ -55,5 +54,8 @@ def get_data(url):
     return df
 
 df = get_data(url)
+
+df = df.rename(columns={'time':'DateTime'})
+df.set_index('DateTime', inplace = True)
 
 df.to_pickle('Data/meteogram_data.pkl')

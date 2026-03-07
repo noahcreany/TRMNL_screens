@@ -14,7 +14,7 @@ from matplotlib import patheffects
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import matplotlib.dates as mdates
 from matplotlib import patches
-from matplotlib.ticker import MultipleLocator
+from matplotlib.ticker import MultipleLocator, AutoLocator, AutoMinorLocator
 from matplotlib.collections import LineCollection
 from matplotlib.path import Path
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -30,6 +30,8 @@ data_path = 'Data/meteogram_data.pkl'
 
 df = pd.read_pickle(data_path)
 
+icon_folder = 'icons/meteo_icons'
+
 
 conf = {'lat' : 40.5853,
         'lon': -105.084,
@@ -39,7 +41,8 @@ conf = {'lat' : 40.5853,
         'unit_wind' : 'mph',
         'unit_pcp' : 'inch',
         'city':'Fort Collins',
-        'state':'CO'}
+        'state':'CO',
+        'tz':'America/Denver'}
 
 
 #%% Make Meteogram
@@ -60,58 +63,59 @@ def meteogram(df, conf):
     ax_temp.set_facecolor('whitesmoke')
 
     # Plot temperature
-    ax_temp.plot(df.time, df.temperature, color='dimgrey', zorder=9)
-    ax_temp.set_xlim(df.time.min(), df.time.max())
+    ax_temp.plot(df.index, df.temperature, color='dimgrey', zorder=9)
+    ax_temp.set_xlim(df.index.min(), df.index.max())
 
-    # Daylight shading
+     # Daylight shading
     y_max = ax_temp.get_ylim()[1]
     for d in df.date.unique():
-        ax_temp.fill_between(
-            df[(df.date == d) & (df.isdaylight == 1)]['time'],
-            y1=df[(df.date == d) & (df.isdaylight == 1)]['temperature'],
-            y2=y_max,
-            color='#FFD903', alpha=0.2, zorder=1,
-        )
+        ax_temp.fill_between(df[(df.date == d) & (df.isdaylight == 1)].index,
+                    y1=df[(df.date == d) & (df.isdaylight == 1)]['temperature'],
+                    y2=y_max, color='#FFD903', alpha=0.2, zorder=1)
+
+    # Add wind (Secondary Y-axis)
+    ax_wind = ax_temp.twinx()
+    ax_wind.plot(df.index, df['windspeed'].astype(float),
+                 color='black', linestyle=':', linewidth=1.5, alpha=0.5, zorder=5)
+    ax_wind.yaxis.set_major_locator(AutoLocator())
+    ax_wind.yaxis.set_minor_locator(AutoMinorLocator())
+    ax_wind.yaxis.set_major_formatter(lambda x, pos: f'{x:.0f}')
+    ax_wind.set_ylabel('Windspeed (mph)', labelpad = 0)
+    ax_wind.tick_params(axis='y', which='major', length=5, width=1.5, color='dimgrey', labelsize=11, pad=3)
+    ax_wind.tick_params(axis='y', which='minor', length=3, width=1, color='lightgrey')
+    ax_wind.set_ylim(bottom=0)
 
     # Annotate daily max/min temperatures
     for d in df.date.unique():
         day_data = df[df.date == d]
         if day_data.shape[0] > 23:
             max_temp = day_data[day_data.isdaylight == 1]['temperature'].max()
-            max_time = day_data.loc[day_data[day_data.isdaylight == 1]['temperature'].idxmax(), 'time']
+            max_time = day_data[day_data.isdaylight == 1]['temperature'].idxmax()
             min_temp = day_data[day_data.isdaylight == 0]['temperature'].min()
-            min_time = day_data.loc[day_data[day_data.isdaylight == 1]['temperature'].idxmin(), 'time']
+            min_time = day_data[day_data.isdaylight == 1]['temperature'].idxmin()
 
             for temp, time, offset in [(max_temp, max_time, (-12.5, -1)), (min_temp, min_time, (0, -10))]:
-                ax_temp.annotate(
-                    f"{temp:.0f}°", xy=(time, temp), xytext=offset,
-                    textcoords="offset points", ha="center", va="center",
-                    path_effects=[patheffects.withStroke(linewidth=4, foreground='whitesmoke')],
-                    fontsize=9, fontweight='bold', color='black', zorder=10,
-                )
+                ax_temp.annotate(f"{temp:.0f}°", xy=(time, temp), xytext=offset,
+                                 textcoords="offset points", ha="center", va="center",
+                                 path_effects=[patheffects.withStroke(linewidth=4, foreground='whitesmoke')],
+                                 fontsize=9, fontweight='bold', color='black', zorder=10)
 
     # Current time line and annotation
     local_tz = ZoneInfo("America/Denver")
     current_time = datetime.datetime.now(tz=datetime.timezone.utc)
     current_time = current_time.astimezone(local_tz).replace(tzinfo=None)
     nearest_hour = pd.Timestamp.now(tz='America/Denver').round('60min').to_pydatetime()
-    current_temp = df[df.time == nearest_hour.replace(tzinfo=None)]['temperature'].values[0]
+    current_temp = df[df.index == nearest_hour.replace(tzinfo=None)]['temperature'].values[0]
     temp_yloc = np.mean([current_temp, df.temperature.min()])
 
     ax_temp.axvline(current_time, color='black', alpha=0.5, linestyle='--', linewidth=1.5, zorder=10)
-    ax_temp.annotate(
-        f"{current_temp:.0f}°F", xy=(current_time, temp_yloc), xytext=(0, 10),
-        textcoords="offset points", path_effects=[patheffects.withStroke(linewidth=4, foreground='whitesmoke')],
-        fontsize=14, fontweight='bold', ha='center', va='bottom', zorder=11,
-    )
-
-    # Weather icons (top subplot)
-    icon_folder = 'icons/meteo_icons'
-    # ax_icons.set_axis_off()  # Turn off axes for icons
+    ax_temp.annotate(f"{current_temp:.0f}°F", xy=(current_time, temp_yloc), xytext=(0, 10),
+            textcoords="offset points", path_effects=[patheffects.withStroke(linewidth=4, foreground='whitesmoke')],
+            fontsize=14, fontweight='bold', ha='center', va='bottom', zorder=11)
     
+    # Sync X-axes to prevent bounding box explosion
     ax_icons.set_xlim(ax_temp.get_xlim())
     
-    # Create the secondary x-axis (top)
     # Format x-axis for icons (date on top)
     ax_icons.xaxis.set_major_locator(mdates.HourLocator(byhour=11, interval = 1))
     ax_icons.xaxis.set_major_formatter(mdates.DateFormatter('%a %-d %b')) # Format as 'Wed 5 Feb'
@@ -122,20 +126,53 @@ def meteogram(df, conf):
     for pos in ['top','right','bottom','left']:
         ax_icons.spines[pos].set_visible(False)
     
+    ax_icons.set_ylim(-0.1, 1)
+    
+    
+    
+    day_precip = df.groupby('date')['precipitation'].sum()
+    
 
-    for i, row in df.iterrows():
-        if row['time'].hour ==12 :  # Check for 12 AM and 12 PM
+    # Add weather icons and precipitation info text
+    for idx, row in df.iterrows():
+        if idx.hour ==12 :  # Check for 12 AM and 12 PM
             pict_code = f"{row['pictocode']:02d}"
             icon_path = os.path.join(icon_folder, f"{pict_code}_{'day' if row['isdaylight'] else 'night'}.png")
-    
+
+            if day_precip[row['date']] > 0:
+                day_has_precip = True
+                precip_total = day_precip[row['date']]
+                precip_prob = df[(df.date == row['date']) & (df.precipitation > 0)]['precipitation_probability'].mean()
+
+            else:
+                day_has_precip = False
             if os.path.exists(icon_path):
-                try:
-                    img = imread(icon_path)
-                    im = OffsetImage(img, zoom = 1.2)
-                    ab = AnnotationBbox(im, (mdates.date2num(row['time']),0.25), xycoords='data', frameon=False)
-                    ax_icons.add_artist(ab)
-                except Exception as e:
-                    print(f"Error loading icon: {e}")
+                
+                #If Precip add to Icon axis
+                if day_has_precip == True:
+                    try:
+                        img = imread(icon_path)
+                        im = OffsetImage(img, zoom =1.0)
+                        # Shift the icon slightly to the left of the center
+                        ab = AnnotationBbox(im, (mdates.date2num(idx) - 0.2, 0.25), xycoords='data', frameon=False)
+                        # Added the missing closing parenthesis to the string
+                        precip_text = f'{precip_total:.1f} in\n({precip_prob:.1f}%)'
+                        # Place the text to the right of the day's center 
+                        ax_icons.text(mdates.date2num(idx) + 0.2, 0.25, precip_text, 
+                                      ha='center', va='center', fontsize=10)
+                        ax_icons.add_artist(ab)
+                        
+                    except Exception as e:
+                         print(f"Error loading icon: {e}")
+
+                else: 
+                    try:
+                        img = imread(icon_path)
+                        im = OffsetImage(img, zoom = 1.2)
+                        ab = AnnotationBbox(im, (mdates.date2num(idx),0.25), xycoords='data', frameon=False)
+                        ax_icons.add_artist(ab)
+                    except Exception as e:
+                        print(f"Error loading icon: {e}")
 
     # Temperature color bands
     cmap = mpl.colormaps['Spectral_r']
@@ -147,11 +184,9 @@ def meteogram(df, conf):
 
     for t in t_grads:
         clipped_upper = np.minimum(df.temperature, t + 5)
-        ax_temp.fill_between(
-            df.time, t, clipped_upper,
-            where=(df.temperature + 0.5 >= t) & (df.temperature >= t - 5),
-            color=get_color(t), alpha=1, step=None, interpolate=True, zorder=1, edgecolor='none',
-        )
+        ax_temp.fill_between(df.index, t, clipped_upper,
+                    where=(df.temperature >= t) & (df.temperature >= t),
+                    color=get_color(t), alpha=1, step=None, interpolate=True, zorder=1, edgecolor='none')
 
     # Format axes
     ax_temp.xaxis.set_minor_locator(mdates.HourLocator(interval=6))
@@ -177,7 +212,7 @@ def meteogram(df, conf):
     mod_timestamp = os.path.getmtime(data_path)
     utc_time = datetime.datetime.fromtimestamp(mod_timestamp, tz=datetime.timezone.utc)
     
-    local_time = utc_time.astimezone(local_tz)
+    local_time = utc_time.astimezone(ZoneInfo(conf['tz']))
     forecast_time = local_time.strftime("%-d %b %-I:%M %p")
     
     title_string = f"{conf['city']}, {conf['state']} - ({conf['lat']:.2f}, {conf['lon']:.2f}) {conf['asl']}m\nForecast Time: {forecast_time}"
@@ -199,5 +234,3 @@ def meteogram(df, conf):
     
         
 meteogram(df, conf)
-
-
