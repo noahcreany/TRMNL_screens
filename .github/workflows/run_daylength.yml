@@ -1,8 +1,11 @@
 name: Run Daylength
 
+env:
+  TZ: "America/Denver"
+
 on:
   schedule:
-    - cron: '01 0 * * *'
+    - cron: '15 5 * * *' # ~5:15 AM MT (MDT) or 4:15 AM MT (MST)
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
 
