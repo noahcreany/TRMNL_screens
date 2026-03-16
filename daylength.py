@@ -82,7 +82,7 @@ def daylength(latitude,longitude,elevation,timezone_str,city_name):
     ax.grid(True, which='minor', linestyle='-', linewidth=.75, axis='y', alpha = 1)
     
     # 6. Finalize plot
-    ax.set_title(f'{city_name} Day Length: {df.Date.min().strftime("%m/%-d/%y")}-{df.Date.max().strftime("%m/%-d/%y")}')
+    ax.set_title(f'{city_name} Day Length: {df.Date.min().strftime("%-m/%-d/%y")}-{df.Date.max().strftime("%-m/%-d/%y")}')
     ax.set_xlabel('Date')
     ax.set_ylabel('Length of Day')
     ax.spines['top'].set_visible(False) 
