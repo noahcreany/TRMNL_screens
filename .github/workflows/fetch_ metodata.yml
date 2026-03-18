@@ -1,14 +1,17 @@
 name: Fetch Meteogram Data
 
+env:
+  TZ: "America/Denver"
+
 on:
   schedule:
-    # 7:55 AM MDT is 13:55 UTC
-    - cron: '50 13 * * *'
-    # 11:55 AM MDT is 17:55 UTC
-    - cron: '50 17 * * *'
-    # 5:55 PM MDT is 23:55 UTC
-    - cron: '50 23 * * *'
-  workflow_dispatch:      # Allows manual runs from the Actions tab
+    # 7:55 AM MT
+    - cron: "50 7 * * *"
+    # 11:55 AM MT
+    - cron: "50 11 * * *"
+    # 5:55 PM MT
+    - cron: "50 17 * * *"
+  workflow_dispatch: # Allows manual runs from the Actions tab
 
 permissions:
   contents: write
@@ -17,12 +20,12 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'  # Change to your Python version if needed
+          python-version: "3.11" # Change to your Python version if needed
 
       - name: Install dependencies
         run: |
@@ -31,16 +34,16 @@ jobs:
 
       - name: Run script
         env:
-            API_KEY: ${{secrets.API_KEY}}
+          API_KEY: ${{secrets.API_KEY}}
         run: python fetch_meteodata.py
-        
+
       - name: Commit and push updated meteogram data
         run: |
           # Configure git user, this is required to commit
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/noahcreany/TRMNL_Screens.git
-          
+
           git add Data/meteogram_data.pkl
           git commit -m "Fetched new meteogram data" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/noahcreany/TRMNL_Screens.git HEAD:main

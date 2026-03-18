@@ -1,13 +1,13 @@
 name: Build Meteogram
 
+env:
+  TZ: "America/Denver"
+
 on:
   schedule:
-    - cron: '55 12-23 * * *'
-    - cron: '25 12-23 * * *'
-    - cron: '55 0-3 * * *'
-    - cron: '25 0-3 * * *'
-  workflow_dispatch:      # Allows manual runs from the Actions tab
-
+    - cron: "50 5-20 * * *"
+    - cron: "20 5-20 * * *"
+  workflow_dispatch: # Allows manual runs from the Actions tab
 
 permissions:
   contents: write
@@ -16,12 +16,12 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'  # Change to your Python version if needed
+          python-version: "3.11" # Change to your Python version if needed
 
       - name: Install dependencies
         run: |
@@ -29,13 +29,13 @@ jobs:
 
       - name: Run script
         run: python meteogram.py
-        
+
       - name: Commit and push updated meteogram
         run: |
           # Configure git user, this is required to commit
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
           git add Images/meteogram.png
           git commit -m "Meteogram updated" || echo "No changes to commit"
           git pull --rebase origin main

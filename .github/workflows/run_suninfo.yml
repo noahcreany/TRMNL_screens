@@ -5,10 +5,17 @@ env:
 
 on:
   schedule:
+<<<<<<< Updated upstream
     - cron: '50 5-22 * * *'
     
   workflow_dispatch:      # Allows manual runs from the Actions tab
 
+=======
+    - cron: "50 5-20 * * *"
+
+  workflow_dispatch: # Allows manual runs from the Actions tab
+
+>>>>>>> Stashed changes
 permissions:
   contents: write
 
@@ -16,12 +23,12 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'  # Change to your Python version if needed
+          python-version: "3.11" # Change to your Python version if needed
 
       - name: Install dependencies
         run: |
@@ -29,12 +36,12 @@ jobs:
 
       - name: Run script
         run: python TRMNL_Sunrise.py
-        
+
       - name: Commit and push updated meteogram
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
           git add Images/sunrise.png
           git commit -m "Sun Info updated" || echo "No changes to commit"
           git pull --rebase origin main
