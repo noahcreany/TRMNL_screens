@@ -5,17 +5,10 @@ env:
 
 on:
   schedule:
-<<<<<<< Updated upstream
-    - cron: '50 5-22 * * *'
-    
-  workflow_dispatch:      # Allows manual runs from the Actions tab
-
-=======
     - cron: "50 5-20 * * *"
 
   workflow_dispatch: # Allows manual runs from the Actions tab
 
->>>>>>> Stashed changes
 permissions:
   contents: write
 
