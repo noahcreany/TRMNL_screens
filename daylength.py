@@ -108,7 +108,7 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     ax.spines['right'].set_visible(False)
     fig.autofmt_xdate()
     plt.tight_layout()
-    # plt.savefig('Images/daylength.png')
+    plt.savefig('Images/daylength.png')
     plt.show()
     
 
