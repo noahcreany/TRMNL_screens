@@ -15,7 +15,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
-    
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+from PIL import Image 
 
 
 
@@ -50,11 +51,27 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     
     ax.plot(df['Date'], df['Daylength'], linewidth = 3, alpha = .5,color='black')
     
-    ax.scatter(df[df.Today==True]['Date'],
-               df[df.Today==True]['Daylength'],
-               color = 'black',
-               s = 125,
-               zorder=9)
+    # ax.scatter(df[df.Today==True]['Date'],
+    #            df[df.Today==True]['Daylength'],
+    #            color = 'black',
+    #            s = 125,
+    #            zorder=9)
+
+    # Use sun icon as marker
+    xi = df[df.Today==True]['Date'].values[0]
+    xi = mdates.date2num(xi)
+    yi = df[df.Today==True]['Daylength'].values[0]
+    img = Image.open("icons/meteo_icons/01_day.png")
+    # grayscale_img = img.convert('LA')
+    imagebox = OffsetImage(img, zoom=.75)
+
+    # AnnotationBbox anchors the image box to the (x, y) coordinate
+    ab = AnnotationBbox(imagebox, (xi, yi), frameon=False)
+
+    # Add the artist to the axis
+    ax.add_artist(ab)
+
+
     
     # 4. Format the X-axis (Date)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -91,7 +108,7 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     ax.spines['right'].set_visible(False)
     fig.autofmt_xdate()
     plt.tight_layout()
-    plt.savefig('Images/daylength.png')
+    # plt.savefig('Images/daylength.png')
     plt.show()
     
 
