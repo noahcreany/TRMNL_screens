@@ -19,16 +19,18 @@ import matplotlib.ticker as ticker
 
 
 
-def daylength(latitude,longitude,elevation,timezone_str,city_name):
+def daylength(latitude,longitude,elevation,timezone,city_name):
     observer = Observer(latitude, longitude, elevation)
-    timezone = pytz.timezone(timezone_str)
-    now = datetime.now(timezone)
+    timezone = pytz.timezone(timezone)
+    now = datetime.now(tz=timezone)
     
     df = pd.DataFrame()
-    df['Date'] = pd.date_range(start = now - relativedelta(months=6,),
-                               end =  now + relativedelta(months=6),
-                  tz = timezone,
-                  freq = 'D')
+    start = now - relativedelta(months=6)
+    end =  now + relativedelta(months=6)
+    df['Date'] = pd.date_range(start = start,
+                               end =  end,
+                               tz = timezone,
+                               freq = 'D')
     
     df['Today'] = np.where(df['Date'].dt.strftime('%Y-%m-%d')==now.strftime('%Y-%m-%d'),True,False)
     
