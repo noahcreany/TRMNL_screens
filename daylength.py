@@ -26,8 +26,8 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     now = datetime.now(tz=timezone)
     
     df = pd.DataFrame()
-    start = now - relativedelta(months=6)
-    end =  now + relativedelta(months=6)
+    start = (now - relativedelta(months=6)).date()
+    end = (now + relativedelta(months=6)).date()
     df['Date'] = pd.date_range(start = start,
                                end =  end,
                                tz = timezone,
