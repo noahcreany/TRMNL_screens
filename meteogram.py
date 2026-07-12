@@ -32,17 +32,16 @@ df = pd.read_pickle(data_path)
 
 icon_folder = 'icons/meteo_icons'
 
-
-conf = {'lat' : 40.5853,
-        'lon': -105.084,
-        'asl' : 1525,
+conf = {'key' : api_key,
+        'lat' : 46.73239
+        'lon': -117.00017
+        'asl' : 786,
         'fmt' : 'csv',
         'unit_temp': 'F',
         'unit_wind' : 'mph',
         'unit_pcp' : 'inch',
-        'city':'Fort Collins',
-        'state':'CO',
-        'tz':'America/Denver'}
+        'city':'Moscow',
+        'state':'ID'}
 
 
 #%% Make Meteogram

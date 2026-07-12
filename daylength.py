@@ -113,10 +113,10 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     
 
 
-latitude = 40.5853
-longitude = -105.084
-elevation = 1525
-timezone = 'America/Denver'
-city_name = 'Fort Collins, CO'
+latitude = 46.73239
+longitude = -117.00017
+elevation = 2,579
+timezone = 'America/Creston'
+city_name = 'Moscow, ID'
 
 daylength(latitude,longitude,elevation, timezone, city_name)

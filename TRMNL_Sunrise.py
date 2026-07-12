@@ -31,7 +31,9 @@ def create_date_figure():
 
 
     # Location info for Fort Collins
-    city = LocationInfo("Fort Collins", "USA", "America/Denver", 40.5853, -105.084)
+    # city = LocationInfo("Fort Collins", "USA", "America/Denver", 40.5853, -105.084)
+    # Location info for Moscow, ID
+    city = LocationInfo("Moscow", "USA", "America/Creston", 46.73239, -117.00017)
     s = sun(city.observer, date=now.date(), tzinfo=city.timezone)
 
     sunrise = s["sunrise"].strftime("%I:%M %p").lstrip('0')

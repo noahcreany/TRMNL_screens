@@ -20,15 +20,15 @@ if not api_key:
 
 
 conf = {'key' : api_key,
-        'lat' : 40.5853,
-        'lon': -105.084,
-        'asl' : 1525,
+        'lat' : 46.73239
+        'lon': -117.00017
+        'asl' : 786,
         'fmt' : 'csv',
         'unit_temp': 'F',
         'unit_wind' : 'mph',
         'unit_pcp' : 'inch',
-        'city':'Fort Collins',
-        'state':'CO'}
+        'city':'Moscow',
+        'state':'ID'}
 
 
 url = f"""https://my.meteoblue.com/packages/basic-1h?apikey={conf['key']}&
