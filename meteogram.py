@@ -40,7 +40,8 @@ conf = {'lat' : 46.73239,
         'unit_wind' : 'mph',
         'unit_pcp' : 'inch',
         'city':'Moscow',
-        'state':'ID'}
+        'state':'ID',
+        'tz':'America/Vancouver'}
 
 
 #%% Make Meteogram
