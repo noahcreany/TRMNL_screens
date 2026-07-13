@@ -116,7 +116,7 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
 latitude = 46.73239
 longitude = -117.00017
 elevation = 2,579
-timezone = 'America/Creston'
+timezone = 'America/Vancouver'
 city_name = 'Moscow, ID'
 
 daylength(latitude,longitude,elevation, timezone, city_name)

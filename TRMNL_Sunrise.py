@@ -24,8 +24,8 @@ def create_date_figure():
     fig, ax = plt.subplots(figsize=((800 / 100), (480 / 100)),dpi=100)  # 640x400 pixels
 
     # Date and time
-    denver_tz = ZoneInfo("America/Denver")
-    now = datetime.now(denver_tz)
+    tz_info = ZoneInfo("America/Vancouver")
+    now = datetime.now(tz_info)
     
     date_str = now.strftime("%a %-d %b %y")
 
@@ -33,7 +33,7 @@ def create_date_figure():
     # Location info for Fort Collins
     # city = LocationInfo("Fort Collins", "USA", "America/Denver", 40.5853, -105.084)
     # Location info for Moscow, ID
-    city = LocationInfo("Moscow", "USA", "America/Creston", 46.73239, -117.00017)
+    city = LocationInfo("Moscow", "USA", "America/Vancouver", 46.73239, -117.00017)
     s = sun(city.observer, date=now.date(), tzinfo=city.timezone)
 
     sunrise = s["sunrise"].strftime("%I:%M %p").lstrip('0')
