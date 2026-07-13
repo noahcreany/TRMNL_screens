@@ -32,8 +32,7 @@ df = pd.read_pickle(data_path)
 
 icon_folder = 'icons/meteo_icons'
 
-conf = {'key' : api_key,
-        'lat' : 46.73239,
+conf = {'lat' : 46.73239,
         'lon': -117.00017,
         'asl' : 786,
         'fmt' : 'csv',
