@@ -9,8 +9,6 @@ Created on Sun Sep  7 11:09:07 2025
 import pandas as pd
 import os
 
-
-
 # Get the API token from the environment variable
 api_key = os.getenv('API_KEY')
 
@@ -39,7 +37,7 @@ format={conf['fmt']}&
 temperature={conf['unit_temp']}&
 windspeed={conf['unit_wind']}&
 precipitationamount={conf['unit_pcp']}&
-tz=America%2FDenver&forecast_days=5"""
+tz=America%2FVancouver&forecast_days=5"""
 
 
 url = ''.join(url.splitlines())
