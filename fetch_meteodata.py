@@ -20,8 +20,8 @@ if not api_key:
 
 
 conf = {'key' : api_key,
-        'lat' : 46.73239
-        'lon': -117.00017
+        'lat' : 46.73239,
+        'lon': -117.00017,
         'asl' : 786,
         'fmt' : 'csv',
         'unit_temp': 'F',

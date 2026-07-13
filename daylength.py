@@ -112,11 +112,8 @@ def daylength(latitude,longitude,elevation,timezone,city_name):
     plt.show()
     
 
-
-latitude = 46.73239
-longitude = -117.00017
-elevation = 2,579
-timezone = 'America/Vancouver'
-city_name = 'Moscow, ID'
-
-daylength(latitude,longitude,elevation, timezone, city_name)
+daylength(latitude= 46.73239,
+          longitude= -117.00017,
+          elevation= 2579,
+          timezone = 'America/Vancouver',
+          city_name = 'Moscow, ID')
