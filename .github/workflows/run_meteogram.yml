@@ -1,7 +1,7 @@
 name: Build Meteogram
 
 env:
-  TZ: "America/Denver"
+  TZ: "America/Vancouver"
 
 on:
   schedule:
